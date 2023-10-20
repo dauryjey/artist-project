@@ -2,7 +2,7 @@ import { BiSearch } from 'react-icons/bi'
 import { Artist } from './components/Artist'
 import artist from './mocks/artist.json'
 
-function App () {
+function App () {  
   const artistInfo = {
     id: artist.id,
     image: artist.images[2].url,

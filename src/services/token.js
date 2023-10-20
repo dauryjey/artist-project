@@ -14,8 +14,8 @@ export const getToken = async () => {
     
         const token = json.access_token
         const expiration = Date.now() + parseInt(json.expires_in) * 1000
-    
-        return token, expiration
+
+        return [token, expiration]
     } catch (e) {
         throw new Error('Error creating token')
     }
