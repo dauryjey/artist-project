@@ -1,6 +1,5 @@
 import { BiSearch } from 'react-icons/bi'
 import { Artist } from './components/Artist'
-import { AuthProvider } from './contexts/AuthContext'
 import artist from './mocks/artist.json'
 
 function App () {  
@@ -16,9 +15,6 @@ function App () {
 
   return (
     <>
-    <AuthProvider>
-
-    </AuthProvider>
       <div className='w-full'>
         <header className='flex flex-col justify-center items-center m-5 gap-3'>
           <h1 className='text-3xl font-bold text-center'>Search for your&nbsp;
