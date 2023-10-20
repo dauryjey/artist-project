@@ -3,15 +3,14 @@ import { getToken } from "../services/token"
 import { verifyToken } from "../services/verify"
 
 export const useAuthToken = () => {
-    const { storedToken, isValid } = verifyToken()
+    const [isValid, storedToken] = verifyToken()
     const [token, setToken] = useState(storedToken)
+    console.log(isValid)
 
     useEffect(() => {
         if (!isValid) {
-            const { newToken, expiration } = getToken()
+            const [newToken] = getToken()
             setToken(newToken)
-            localStorage.setItem('token', `${token}`)       
-            localStorage.setItem('tokenExpiration', `${expiration}`)
         }
     }, [token, isValid])
   

@@ -4,5 +4,9 @@ export const verifyToken = () => {
     const isTokenExpired = Date.now() > parseInt(storedExpiration, 10)
     const isValid = storedToken && !isTokenExpired
 
-    return [storedToken, isValid]
+    if (isValid) {
+        return [isValid, storedToken]
+    } else {
+        return [isValid]
+    }
 }
