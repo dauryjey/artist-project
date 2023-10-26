@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { BsSpotify } from 'react-icons/bs'
 
-export function Artist ({ artistInfo }) {
+export const Artist = ({ artistInfo }) => {
   return (
     <article className='bg-gray-900 bg-opacity-70 flex flex-wrap gap-2 min-w-[300px] max-w-[500px] rounded-xl text-white overflow-hidden'>
       <img src={artistInfo.image} alt={artistInfo.name} className='rounded-br' />
