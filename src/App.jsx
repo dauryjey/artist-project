@@ -12,10 +12,9 @@ function App () {
   const { search, updateSearch, error } = useSearch()
   const { artists, getArtistList, loading, artistError } = useArtist({ search, token })
 
-
   const handleDebouncedSearch = useCallback(
-    debounce(search => {
-      getArtistList({ search });
+    debounce((search, token) => {
+      getArtistList({ search, token });
     }, 500),
     [getArtistList]
   )
@@ -28,7 +27,7 @@ function App () {
   const handleChange = (e) => {
     const newSearch = e.target.value
     updateSearch(newSearch)
-    handleDebouncedSearch(newSearch)
+    handleDebouncedSearch({ newSearch, token })
   }
 
   return (

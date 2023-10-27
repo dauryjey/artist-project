@@ -7,10 +7,14 @@ export const useAuthToken = () => {
   const [token, setToken] = useState(storedToken)
 
   useEffect(() => {
-    if (!isValid) {
-      const newToken = getToken();
-      setToken(newToken)
+    const checkToken = async () => {
+      if (!isValid) {
+        const newToken = await getToken();
+        setToken(newToken)
+      }
     }
+
+    checkToken()
   }, [isValid]);
 
   return token
