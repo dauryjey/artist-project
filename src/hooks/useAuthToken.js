@@ -7,11 +7,11 @@ export const useAuthToken = () => {
   const [token, setToken] = useState(storedToken)
 
   useEffect(() => {
-    if (!isValid && token !== null) {
-      const newToken = getToken()
+    if (!isValid) {
+      const newToken = getToken();
       setToken(newToken)
     }
-  }, [token, isValid])
+  }, [isValid]);
 
   return token
 }
