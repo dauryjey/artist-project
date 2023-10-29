@@ -11,6 +11,7 @@ function App () {
   const { search, updateSearch, error } = useSearch()
   const { artists, getArtistList, loading, artistError } = useArtist({ search, token })
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleDebouncedSearch = useCallback(
     debounce((search, token) => {
       if (!artistError && !error) {
