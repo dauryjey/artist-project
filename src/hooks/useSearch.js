@@ -16,8 +16,12 @@ export function useSearch () {
       return
     }
 
-    if (search.length < 3) {
-      setError('Search must be at least 3 characters')
+    if (search === ' ') {
+      return
+    }
+
+    if (search.length < 2) {
+      setError('Search must be at least 2 characters')
       return
     }
 

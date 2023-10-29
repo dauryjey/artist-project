@@ -9,13 +9,13 @@ export const useAuthToken = () => {
   useEffect(() => {
     const checkToken = async () => {
       if (!isValid) {
-        const newToken = await getToken();
+        const newToken = await getToken()
         setToken(newToken)
       }
     }
 
     checkToken()
-  }, [isValid]);
+  }, [isValid])
 
   return token
 }

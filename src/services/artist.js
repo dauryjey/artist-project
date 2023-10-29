@@ -15,7 +15,7 @@ export const getArtist = async ({ search, token }) => {
 
   return artists?.map(artist => ({
     id: artist.id,
-    image: artist.images?.[1]?.url || 'default_image_url',
+    image: artist.images?.[1]?.url || './default_pfp.webp',
     name: artist.name,
     followers: artist.followers.total,
     genres: artist.genres,

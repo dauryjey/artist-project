@@ -9,10 +9,10 @@ export const useArtist = ({ search, token }) => {
 
   const getArtistList = useCallback(async () => {
     if (!search || !token) {
-        setArtists([])
-        return;
-      }
-    
+      setArtists([])
+      return
+    }
+
     if (search === previousSearch.current) return
 
     try {
@@ -21,12 +21,11 @@ export const useArtist = ({ search, token }) => {
       const newArtists = await getArtist({ search, token })
       setArtists(newArtists)
     } catch (e) {
-        setArtistError(e.message)
+      setArtistError(e.message)
     } finally {
       setLoading(false)
     }
-
-}, [search, token])
+  }, [search, token])
 
   return { artists, getArtistList, loading, artistError }
 }
