@@ -18,7 +18,7 @@ export const Artist = ({ artistInfo }) => {
                 return (
                   <li className='leading-relaxed' key={idx}>
                     {genre}
-                </li>
+                  </li>
                 )
               }
             })}
