@@ -13,7 +13,6 @@ export const useAuthToken = () => {
         setToken(newToken)
       }
     }
-
     checkToken()
   }, [isValid])
 

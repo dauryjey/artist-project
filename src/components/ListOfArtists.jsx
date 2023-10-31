@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
-import { Artist } from './Artist'
+import { ArtistCard } from './ArtistCard'
 
 export const ListOfArtists = ({ artists }) => {
   return (
-    <ul>
+    <ul className='grid grid-cols-1 xl:grid-cols-2 gap-5'>
       {
                 artists.map(artist => (
                   <li key={artist.id}>
-                    <Artist artistInfo={artist} />
+                    <ArtistCard artistInfo={artist} />
                   </li>
                 ))
             }
