@@ -3,11 +3,15 @@ import { useAuthToken } from './hooks/useAuthToken'
 import { useSearch } from './hooks/useSearch'
 import { ListOfArtists } from './components/ListOfArtists'
 import { useArtist } from './hooks/useArtist'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import debounce from 'just-debounce-it'
+import { getUserProfile } from './services/artist'
 
 function App () {
-  const token = useAuthToken()
+  const storedVisitedBefore = localStorage.getItem('visitedBefore')
+  const initialVisitedBefore = storedVisitedBefore ? JSON.parse(storedVisitedBefore) : false
+  const [visitedBefore, setVisitedBefore] = useState(initialVisitedBefore)
+  const token = useAuthToken({ visitedBefore, setVisitedBefore })
   const { search, updateSearch, error } = useSearch()
   const { artists, getArtistList, loading, artistError } = useArtist({ search, token })
 
@@ -46,25 +50,25 @@ function App () {
               style={{
                 border: '1px solid transparent',
                 borderColor: error ? 'red' : 'transparent'
-              }} type='text' onChange={handleChange} value={search} name='query' placeholder='Bad Bunny, Kendrick Lamar, J. Cole...' className='w-full bg-gray-600 h-6 rounded-xl p-4 focus:outline-white-400 text-white'
+              }} type='text'
+              disabled={!visitedBefore}
+              onChange={handleChange} value={search} name='query' placeholder='Bad Bunny, Kendrick Lamar, J. Cole...' className='w-full bg-gray-600 h-6 rounded-xl p-4 focus:outline-white-400 text-white'
             />
-            <button type='submit' className='bg-gray-600 ml-2 rounded-full  text-gray-700 p-1 hover:bg-white hover:text-green-400'>
+            <button type='submit' disabled={!visitedBefore} className='bg-gray-600 ml-2 rounded-full  text-gray-700 p-1 hover:bg-white hover:text-green-400'>
               <BiSearch size='1.5em' />
             </button>
           </form>
         </header>
-        <main className='flex justify-center px-10'>
-          <section>
-            {
-              loading
-                ? <p className='text-white font-medium text-lg'>Loading...</p>
-                : error
-                  ? <p className='text-white font-medium text-lg'>{error}</p>
-                  : artistError !== null
-                    ? <p className='text-white font-medium text-lg'>{artistError}</p>
-                    : <ListOfArtists artists={artists} />
-                }
-          </section>
+        <main className='flex justify-center px-5 w-full'>
+          {!visitedBefore
+            ? <p className='text-white text-xl font-medium'>Please authorize the app. You will be redirected soon.</p>
+            : loading
+              ? <p className='text-white font-medium text-lg'>Loading...</p>
+              : error
+                ? <p className='text-white font-medium text-lg'>{error}</p>
+                : artistError !== null
+                  ? <p className='text-white font-medium text-lg'>{artistError}</p>
+                  : <ListOfArtists artists={artists} />}
         </main>
       </div>
     </>
