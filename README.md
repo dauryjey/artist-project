@@ -1,8 +1,15 @@
-# React + Vite
+![image](https://github.com/dauryjey/artist-project/assets/134655153/c93897ee-d650-4315-bd18-0cfc51365b93)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Spotify Artist Search
 
-Currently, two official plugins are available:
+Spotify Artist Search is a web application that allows users to search for their favorite artists on Spotify and view detailed information about them.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+
+- **Search Artists:** Users can search for artists by name.
+- **Top Artists:** Users can view a list of their most listened-to artists based on their Spotify listening history.
+- **View Artist Details:** Users can view detailed information about the selected artist, including followers, genres, and popularity.
+- **Spotify Integration:** Direct links to artist's Spotify profiles for further exploration.
+
+## API Reference
+- **[Spotify Web API:](https://developer.spotify.com/documentation/web-api)** Spotify Web API documentation for artist search and details.
