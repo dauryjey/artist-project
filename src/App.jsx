@@ -1,42 +1,22 @@
-import { BiSearch } from 'react-icons/bi'
-import { useAuthToken } from './hooks/useAuthToken'
-import { useSearch } from './hooks/useSearch'
-import { ListOfArtists } from './components/ListOfArtists'
-import { useArtist } from './hooks/useArtist'
-import { useCallback, useState } from 'react'
-import debounce from 'just-debounce-it'
-import { getUserProfile } from './services/artist'
+import { Profile } from './components/Profile'
+import { MainSection } from './components/MainSection'
+import { useAppData } from './hooks/useAppData'
+import { Search } from './components/Search'
 
 function App () {
-  const storedVisitedBefore = localStorage.getItem('visitedBefore')
-  const initialVisitedBefore = storedVisitedBefore ? JSON.parse(storedVisitedBefore) : false
-  const [visitedBefore, setVisitedBefore] = useState(initialVisitedBefore)
-  const token = useAuthToken({ visitedBefore, setVisitedBefore })
-  const { search, updateSearch, error } = useSearch()
-  const { artists, getArtistList, loading, artistError } = useArtist({ search, token })
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleDebouncedSearch = useCallback(
-    debounce((search, token) => {
-      if (!artistError && !error) {
-        getArtistList({ search, token })
-      }
-    }, 500),
-    [getArtistList, artistError, error]
-  )
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!artistError && !error) {
-      getArtistList({ search, token })
-    }
-  }
-
-  const handleChange = (e) => {
-    const newSearch = e.target.value
-    updateSearch(newSearch)
-    handleDebouncedSearch({ newSearch, token })
-  }
+  const {
+    visitedBefore,
+    token,
+    profile,
+    userTop,
+    search,
+    updateSearch,
+    error,
+    artists,
+    getArtistList,
+    loading,
+    artistError
+  } = useAppData()
 
   return (
     <>
@@ -45,31 +25,10 @@ function App () {
           <h1 className='text-3xl font-bold text-center'>Search for your&nbsp;
             <span className='text-green-400'>favorite artist</span>
           </h1>
-          <form className='flex justify-center w-5/12 min-w-[250px]' onSubmit={handleSubmit}>
-            <input
-              style={{
-                border: '1px solid transparent',
-                borderColor: error ? 'red' : 'transparent'
-              }} type='text'
-              disabled={!visitedBefore}
-              onChange={handleChange} value={search} name='query' placeholder='Bad Bunny, Kendrick Lamar, J. Cole...' className='w-full bg-gray-600 h-6 rounded-xl p-4 focus:outline-white-400 text-white'
-            />
-            <button type='submit' disabled={!visitedBefore} className='bg-gray-600 ml-2 rounded-full  text-gray-700 p-1 hover:bg-white hover:text-green-400'>
-              <BiSearch size='1.5em' />
-            </button>
-          </form>
+          <Search {...{ token, search, updateSearch, artistError, error, visitedBefore, getArtistList }} />
+          <Profile profile={profile} />
         </header>
-        <main className='flex justify-center px-5 w-full'>
-          {!visitedBefore
-            ? <p className='text-white text-xl font-medium'>Please authorize the app. You will be redirected soon.</p>
-            : loading
-              ? <p className='text-white font-medium text-lg'>Loading...</p>
-              : error
-                ? <p className='text-white font-medium text-lg'>{error}</p>
-                : artistError !== null
-                  ? <p className='text-white font-medium text-lg'>{artistError}</p>
-                  : <ListOfArtists artists={artists} />}
-        </main>
+        <MainSection {...{ visitedBefore, loading, error, artistError, artists, userTop, search }} />
       </div>
     </>
   )

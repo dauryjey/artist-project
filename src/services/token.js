@@ -1,4 +1,4 @@
-import PKCE from "js-pkce"
+import PKCE from 'js-pkce'
 
 const client_id = import.meta.env.VITE_CLIENT_ID
 
@@ -18,41 +18,40 @@ const pkce = new PKCE({
   authorization_endpoint,
   token_endpoint,
   requested_scopes,
-  storage,
+  storage
 })
 
-export const getToken = async () => {
-  const url = new URL(window.location.href);
+export const getToken = () => {
+  const url = new URL(window.location.href)
   if (url.searchParams.has('code')) {
     const authorizationCode = window.location.href
-    try {
-      const resp = await pkce.exchangeForAccessToken(authorizationCode)
-      const token = resp.access_token
-      const refreshToken = resp.refresh_token
-      const expiration = Date.now() + parseInt(resp.expires_in) * 1000
-
-      localStorage.setItem('token', token)
-      localStorage.setItem('tokenExpiration', expiration)
-      localStorage.setItem('refreshToken', refreshToken)
-
-      return [token, expiration, refreshToken]
-    } catch (e) {
-      throw new Error('Error exchanging authorization code for access token');
-    }
+    return pkce.exchangeForAccessToken(authorizationCode)
+      .then(resp => {
+        const token = resp.access_token
+        const refreshToken = resp.refresh_token
+        const expiration = Date.now() + parseInt(resp.expires_in) * 1000
+        localStorage.setItem('token', token)
+        localStorage.setItem('tokenExpiration', expiration)
+        localStorage.setItem('refreshToken', refreshToken)
+        return [token, expiration, refreshToken]
+      })
+      .catch(error => {
+        throw new Error('Error exchanging authorization code for access token', error)
+      })
   } else {
-    window.location.replace(pkce.authorizeUrl());
+    window.location.replace(pkce.authorizeUrl())
   }
 }
 
-export const getNewToken = async (oldRefreshToken) => {
-  const resp = await pkce.refreshAccessToken(oldRefreshToken)
-  const token = resp.access_token
-  const refreshToken = resp.refresh_token
-  const expiration = resp.expires_in
-
-  localStorage.setItem('token', token)
-  localStorage.setItem('tokenExpiration', expiration)
-  localStorage.setItem('refreshToken', refreshToken)
-
-  return [token, expiration, refreshToken]
+export const getNewToken = (oldRefreshToken) => {
+  return pkce.refreshAccessToken(oldRefreshToken)
+    .then(resp => {
+      const token = resp.access_token
+      const refreshToken = resp.refresh_token
+      const expiration = resp.expires_in
+      localStorage.setItem('token', token)
+      localStorage.setItem('tokenExpiration', expiration)
+      localStorage.setItem('refreshToken', refreshToken)
+      return [token, expiration, refreshToken]
+    })
 }
