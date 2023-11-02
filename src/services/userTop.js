@@ -2,7 +2,7 @@ import { fetchData } from './fetchData'
 import { parseArtistData } from './parseArtistData'
 
 export const getUserTop = async ({ token }) => {
-  const API_URL = 'https://api.spotify.com/v1/me/top/artists'
+  const API_URL = 'https://api.spotify.com/v1/me/top/artists?limit=10'
 
   try {
     const userInfo = await fetchData({ url: API_URL, token })

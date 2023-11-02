@@ -9,7 +9,7 @@ export const MainSection = ({ visitedBefore, loading, error, artistError, artist
     {visitedBefore
       ? (
         <>
-          <section className='pb-4'>
+          <section>
             {search &&
               <>
                 <header className='text-2xl text-white text-center font-medium'>
